@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: poker
+      POSTGRES_PASSWORD: poker_password
+      POSTGRES_DB: poker
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U poker"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://poker:poker_password@db/poker
+      - SECRET_KEY=change-me-in-production
+      - ENVIRONMENT=production
+      - PORT=8000
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  postgres_data:

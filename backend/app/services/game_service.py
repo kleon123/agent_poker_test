@@ -167,9 +167,15 @@ class GameService:
 
         # Broadcast events
         table_id = game.table_id
+        player_obj = game.players.get(player_id)
         await connection_manager.broadcast_to_table(table_id, {
             "type": "action",
-            "data": {"player_id": player_id, "action": action, "amount": amount},
+            "data": {
+                "player": {"id": player_id, "name": player_obj.name if player_obj else player_id},
+                "action": action,
+                "amount": amount,
+                "pot": game.pot,
+            },
         })
 
         if state.phase == GamePhase.FINISHED:

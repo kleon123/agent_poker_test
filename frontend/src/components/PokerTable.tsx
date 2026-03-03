@@ -169,7 +169,7 @@ export const PokerTable: React.FC<PokerTableProps> = ({ gameState }) => {
       ))}
 
       {/* Waiting overlay */}
-      {gameState.phase === 'WAITING' && (
+      {gameState.phase === 'waiting' && (
         <div style={{
           position: 'absolute',
           inset: 0,

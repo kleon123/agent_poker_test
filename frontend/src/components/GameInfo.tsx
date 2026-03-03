@@ -6,12 +6,13 @@ interface GameInfoProps {
 }
 
 const PHASE_COLORS: Record<string, string> = {
-  WAITING: '#888',
-  PRE_FLOP: '#2196f3',
-  FLOP: '#4caf50',
-  TURN: '#ff9800',
-  RIVER: '#e91e63',
-  SHOWDOWN: '#ffd700',
+  waiting: '#888',
+  pre_flop: '#2196f3',
+  flop: '#4caf50',
+  turn: '#ff9800',
+  river: '#e91e63',
+  showdown: '#ffd700',
+  finished: '#888',
 };
 
 export const GameInfo: React.FC<GameInfoProps> = ({ gameState }) => {
@@ -19,8 +20,8 @@ export const GameInfo: React.FC<GameInfoProps> = ({ gameState }) => {
     ? gameState.players[gameState.current_player_id]
     : null;
 
-  const phaseColor = PHASE_COLORS[gameState.phase] ?? '#888';
-  const phaseLabel = gameState.phase.replace('_', ' ');
+  const phaseColor = PHASE_COLORS[gameState.phase ?? 'waiting'] ?? '#888';
+  const phaseLabel = (gameState.phase ?? 'waiting').replace(/_/g, ' ');
 
   return (
     <div style={{
@@ -76,7 +77,7 @@ export const GameInfo: React.FC<GameInfoProps> = ({ gameState }) => {
       )}
 
       {/* Current player */}
-      {currentPlayer && gameState.phase !== 'WAITING' && (
+      {currentPlayer && gameState.phase !== 'waiting' && (
         <div style={{
           padding: '8px 10px',
           background: 'rgba(255,215,0,0.08)',

@@ -8,7 +8,7 @@ export interface Card {
 }
 
 export type PlayerStatus = 'active' | 'folded' | 'all_in' | 'sitting_out';
-export type GamePhase = 'PRE_FLOP' | 'FLOP' | 'TURN' | 'RIVER' | 'SHOWDOWN' | 'WAITING';
+export type GamePhase = 'pre_flop' | 'flop' | 'turn' | 'river' | 'showdown' | 'waiting' | 'finished';
 
 export interface Player {
   id: string;

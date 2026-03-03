@@ -8,7 +8,7 @@ interface CommunityCardsProps {
 }
 
 export const CommunityCards: React.FC<CommunityCardsProps> = ({ cards, phase }) => {
-  const phaseLabel = phase.replace('_', ' ');
+  const phaseLabel = (phase ?? 'waiting').replace(/_/g, ' ');
 
   return (
     <div style={{

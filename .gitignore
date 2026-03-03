@@ -1,3 +1,9 @@
 backend/__pycache__
+backend/**/__pycache__
+backend/**/*.pyc
 frontend/dist/
 frontend/node_modules/
+*.db
+*.sqlite3
+.env
+.pytest_cache/

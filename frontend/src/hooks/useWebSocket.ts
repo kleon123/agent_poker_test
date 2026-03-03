@@ -90,8 +90,8 @@ export function useWebSocket(tableId: string | null): UseWebSocketResult {
           }
           case 'hand_result': {
             const result = msg.data as HandResultEvent;
-            const winnerNames = result.winners.map((w: { player: Player; amount: number; hand_description?: string }) =>
-              `${w.player?.name ?? 'Unknown'} wins $${w.amount}${w.hand_description ? ` (${w.hand_description})` : ''}`
+            const winnerNames = result.winners.map((w: { player?: Player; player_name?: string; amount: number; hand_description?: string; hand?: string }) =>
+              `${w.player?.name ?? w.player_name ?? 'Unknown'} wins $${w.amount}${(w.hand_description ?? w.hand) ? ` (${w.hand_description ?? w.hand})` : ''}`
             ).join(', ');
             addLog(makeEntry('hand_result', `Hand over — ${winnerNames}`, result));
             break;

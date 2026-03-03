@@ -14,7 +14,7 @@ class Agent(Base):
     total_chips: Mapped[int] = mapped_column(Integer, default=0)
     games_played: Mapped[int] = mapped_column(Integer, default=0)
     games_won: Mapped[int] = mapped_column(Integer, default=0)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.utcnow())
 
     game_players: Mapped[list["GamePlayer"]] = relationship("GamePlayer", back_populates="agent")
     actions: Mapped[list["GameAction"]] = relationship("GameAction", back_populates="agent")
@@ -29,7 +29,7 @@ class Table(Base):
     small_blind: Mapped[int] = mapped_column(Integer, default=10)
     big_blind: Mapped[int] = mapped_column(Integer, default=20)
     status: Mapped[str] = mapped_column(String(20), default="waiting")
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.utcnow())
 
     games: Mapped[list["Game"]] = relationship("Game", back_populates="table")
 
@@ -42,7 +42,7 @@ class Game(Base):
     status: Mapped[str] = mapped_column(String(20), default="active")
     community_cards: Mapped[Optional[dict]] = mapped_column(JSON, nullable=True)
     pot: Mapped[int] = mapped_column(Integer, default=0)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.utcnow())
     finished_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
 
     table: Mapped["Table"] = relationship("Table", back_populates="games")
@@ -76,7 +76,7 @@ class GameAction(Base):
     round: Mapped[str] = mapped_column(String(20))
     action_type: Mapped[str] = mapped_column(String(20))
     amount: Mapped[int] = mapped_column(Integer, default=0)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.utcnow())
 
     game: Mapped["Game"] = relationship("Game", back_populates="actions")
     agent: Mapped["Agent"] = relationship("Agent", back_populates="actions")
@@ -88,6 +88,6 @@ class GameLog(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
     game_id: Mapped[str] = mapped_column(String(36), ForeignKey("games.id"))
     message: Mapped[str] = mapped_column(Text)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.utcnow())
 
     game: Mapped["Game"] = relationship("Game", back_populates="logs")

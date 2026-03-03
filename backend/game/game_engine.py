@@ -297,7 +297,7 @@ class Table:
         max_bet = max(p.current_bet for p in self.players.values() if p.is_active)
         return min(max_bet - player.current_bet, player.chips)
 
-    def process_action(self, player_id: str, action: str, amount: int = 0) -> dict:
+    def process_action(self, player_id: str, action: str, amount: int = 0, viewer_id: Optional[str] = None) -> dict:
         if self.state in (GameState.WAITING, GameState.SHOWDOWN, GameState.FINISHED):
             raise ValueError(f"Cannot act in state {self.state}")
         current = self.get_current_player_id()
@@ -380,7 +380,7 @@ class Table:
 
         self._advance_action()
 
-        return self.to_dict()
+        return self.to_dict(viewer_id=viewer_id if viewer_id else player_id)
 
     def _advance_action(self):
         eligible = self._betting_eligible()

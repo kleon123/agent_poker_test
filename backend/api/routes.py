@@ -216,6 +216,7 @@ async def submit_action(
             player_id=str(agent.id),
             action=body.action,
             amount=body.amount,
+            viewer_id=str(agent.id),
         )
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))

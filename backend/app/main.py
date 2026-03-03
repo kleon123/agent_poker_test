@@ -1,4 +1,5 @@
 import os
+import logging
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
@@ -8,11 +9,27 @@ from fastapi.staticfiles import StaticFiles
 from app.api import tables, games, players, websocket
 from app.database import create_tables
 
+# Configure logging
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    await create_tables()
+    # Startup
+    logger.info("Starting up application...")
+    try:
+        logger.info("Creating database tables...")
+        await create_tables()
+        logger.info("Database tables created successfully!")
+    except Exception as e:
+        logger.error(f"Failed to create tables during startup: {e}", exc_info=True)
+        raise
+    
     yield
+    
+    # Shutdown
+    logger.info("Shutting down application...")
 
 
 app = FastAPI(

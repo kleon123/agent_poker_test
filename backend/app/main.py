@@ -1,7 +1,9 @@
+import os
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from app.api import tables, games, players, websocket
 from app.database import create_tables
@@ -34,6 +36,12 @@ app.include_router(games.router, prefix="/api")
 app.include_router(websocket.router)
 
 
-@app.get("/")
-async def root():
-    return {"message": "Poker API is running", "docs": "/docs"}
+@app.get("/health")
+async def health():
+    return {"status": "ok"}
+
+
+# Serve the React frontend build if it exists (Railway / production deployment)
+STATIC_DIR = os.path.join(os.path.dirname(__file__), "..", "static")
+if os.path.isdir(STATIC_DIR):
+    app.mount("/", StaticFiles(directory=STATIC_DIR, html=True), name="static")

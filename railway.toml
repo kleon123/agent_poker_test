@@ -1,7 +1,3 @@
-[build]
-dockerfilePath = "Dockerfile"
+# Railway Configurations
 
-[deploy]
-startCommand = "uvicorn app.main:app --host 0.0.0.0 --port $PORT --proxy-headers"
-healthcheckPath = "/health"
-healthcheckTimeout = 30
+healthcheckTimeout = 60 # Increased from 30 to 60 seconds to allow more time for database initialization

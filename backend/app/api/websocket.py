@@ -14,9 +14,7 @@ router = APIRouter(tags=["websocket"])
 
 @router.websocket("/ws/observer/{table_id}")
 async def observer_websocket(websocket: WebSocket, table_id: str):
-    import uuid
-    client_id = str(uuid.uuid4())
-    await connection_manager.connect(websocket, client_id, table_id)
+    await connection_manager.connect(websocket, table_id)
     try:
         # Send current game state on connect
         async with AsyncSessionLocal() as db:

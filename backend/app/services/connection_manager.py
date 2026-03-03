@@ -11,7 +11,7 @@ class ConnectionManager:
         # player_id -> websocket
         self._player_connections: Dict[str, WebSocket] = {}
 
-    async def connect(self, websocket: WebSocket, client_id: str, table_id: str) -> None:
+    async def connect(self, websocket: WebSocket, table_id: str) -> None:
         await websocket.accept()
         if table_id not in self._table_observers:
             self._table_observers[table_id] = set()

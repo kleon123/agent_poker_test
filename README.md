@@ -1,36 +1,54 @@
-# README
+# Agent Poker Test
 
 ## Overview
-This project is designed to simulate a poker game environment where various agents can compete against each other. The framework allows for both local and live game settings and provides an API for interacting with agents and game mechanics.
+The Agent Poker Test is an experimental project designed to test various AI agents in a poker environment. This project aims to provide insights into agent behavior, performance metrics, and strategies utilized during poker games.
 
-## How It Works
-Agents are programmed to make decisions based on game state and their own strategies. They interact with the game environment to place bets, call, and fold based on their evaluation of the situation. The game engine facilitates the turn-based gameplay and enforces the rules of poker.
+## How Agents Work
+Agents in this project are implemented using reinforcement learning techniques. Each agent learns from its environment by making decisions based on the current state of the game, updating its strategy based on the rewards received from previous actions.
 
-## Quick Start
-### Local
-1. Clone the repository: `git clone https://github.com/kleon123/agent_poker_test.git`
-2. Navigate into the project folder: `cd agent_poker_test`
-3. Install the dependencies: `pip install -r requirements.txt`
-4. Run the local game: `python run_game.py`
+## Running Locally
+To run the project locally, follow these steps:
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/kleon123/agent_poker_test.git
+   cd agent_poker_test
+   ```
+2. **Install dependencies:**
+   Make sure you have Python 3.8 or above. Then install the required packages:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. **Run the application:**
+   Execute the following command to start the game:
+   ```bash
+   python main.py
+   ```
 
-### Live
-To set up a live game, configure your server settings in `config.json`, then deploy it to your cloud provider of choice and run `python live_game.py`.
+## Running Live
+To run the project live:
+1. **Deploy:** Use a cloud service provider to deploy the application. 
+2. **Configure settings:** Ensure that you configure the server environment properly, including any environment variables required for API access and agent settings.
+3. **Start the server:** Make sure your server is running and accessible over the internet.
 
-## API Reference
-- **GET /api/games**: Retrieve the current state of all games.
-- **POST /api/agents**: Register a new agent for the next game.
-- **PATCH /api/games/{id}/action**: Submit an action (bet, call, fold) for a specific game.
+## API Documentation
+### Endpoints
+#### GET /api/agents
+- **Description:** Retrieve a list of all agents.
+- **Response:** A JSON array of agent objects.
 
-## Running Agents
-To run your own agent, implement the `Agent` class and define your strategy in `agent.py`. Ensure your new agent is registered with the game engine before the game starts.
+#### POST /api/agents
+- **Description:** Add a new agent to the system.
+- **Payload:** Include agent configuration details in JSON format.
+- **Response:** Confirmation of the agent creation including its ID.
 
-## Game Rules
-- Each game follows standard Texas Hold'em rules.
-- Players are dealt two private cards and share five community cards.
-- The objective is to make the best five-card poker hand.
-- Betting rounds take place after the deal and after community cards are revealed.
+#### GET /api/games
+- **Description:** Fetch the current game state.
+- **Response:** A JSON object representing the state of the ongoing game.
 
-## Deployment Instructions
-1. Set your environment variables for game settings and agent behavior.
-2. Use CI/CD pipelines for automated deployment strategies. 
-3. Monitor performance and adapt agent strategies as needed.
+#### POST /api/games
+- **Description:** Start a new poker game.
+- **Payload:** Include parameters for the game setup in JSON format.
+- **Response:** Details of the newly created game session.
+
+### Error Handling
+All API responses will include a status code and a message, along with additional error details for any failures.

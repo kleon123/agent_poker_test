@@ -1,4 +1,1 @@
-# Railway Configuration
-
-# Settings for the Railway deployment
-healthcheckTimeout = 60s  # Increased from 30s to 60s to allow for database initialization
+healthcheckTimeout = "60s"
